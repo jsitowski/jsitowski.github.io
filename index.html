@@ -1,2 +1,73 @@
-<a href="https://jsitowski.github.io/Orchard/">Orchard</a>
+<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"UTF-8\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+  <title>jsitowski</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      background-color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: crosshair;
+    }
 
+    h1 {
+      font-size: 5rem;
+      color: #00FF00;
+      text-shadow: 0 0 20px #0f0, 0 0 40px #0f0;
+      animation: glow 1s infinite alternate, strobe 0.1s infinite alternate;
+      transition: transform 0.05s linear;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #0f0, 0 0 20px #0f0; }
+      to { text-shadow: 0 0 40px #0f0, 0 0 60px #0f0; }
+    }
+
+    @keyframes strobe {
+      from { opacity: 1; }
+      to { opacity: 0.8; }
+    }
+
+    @keyframes jitter {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(-2px, 2px); }
+      50% { transform: translate(2px, -2px); }
+      75% { transform: translate(-2px, -2px); }
+    }
+  </style>
+</head>
+<body>
+  <h1 id=\"title\">jsitowski</h1>
+
+  <script>
+    const title = document.getElementById('title');
+
+    let lastX, lastY;
+    document.addEventListener('mousemove', (e) => {
+      if (lastX && lastY) {
+        const speed = Math.sqrt((e.clientX - lastX)**2 + (e.clientY - lastY)**2);
+        const intensity = Math.min(speed / 5, 20);
+        title.style.transform = `translate(${Math.random() * intensity - intensity/2}px, ${Math.random() * intensity - intensity/2}px)`;
+        title.style.animationDuration = `${0.1 + (20 - intensity) * 0.05}s`;
+        title.style.color = `rgb(0, ${Math.floor(Math.random() * 156 + 100)}, 0)`;
+        title.style.fontFamily = randomFont();
+      }
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
+
+    function randomFont() {
+      const fonts = ['Courier New', 'Arial Black', 'Comic Sans MS', 'Impact', 'Georgia', 'Lucida Console', 'Verdana', 'Tahoma'];
+      return fonts[Math.floor(Math.random() * fonts.length)];
+    }
+  </script>
+</body>
+</html>
